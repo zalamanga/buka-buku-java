@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/jsf/passthrough" template="/WEB-INF/templates/base.xhtml">
+<ui:define name="title">Kelola buku | BukaBuku</ui:define>
+<ui:define name="metadata"><f:metadata><f:viewAction action="#{editor.open}"/></f:metadata></ui:define>
+<ui:define name="content"><div class="wrap dashboard">
+  <div class="section-heading"><div><h1>Kelola buku</h1><p>Masuk sebagai <strong><h:outputText value="#{sessionScope.userName}"/></strong>. Semua akun demo berbagi katalog ini.</p></div>
+    <h:form id="logout"><input type="hidden" name="csrfToken" value="#{sessionScope.csrfToken}"/><h:commandButton value="Keluar" action="#{auth.logout}" styleClass="button secondary"/></h:form>
+  </div>
+  <h:messages styleClass="messages" role="alert"/>
+  <div class="editor-layout"><section class="records"><h2>Daftar buku</h2>
+    <h:form id="filter" styleClass="search"><input type="hidden" name="csrfToken" value="#{sessionScope.csrfToken}"/><h:outputLabel for="query" value="Cari judul atau penulis"/><div><h:inputText id="query" value="#{editor.query}" p:maxlength="160"/><h:commandButton id="submit" value="Cari" action="#{editor.reload}"/></div><p class="submit-status" role="status"></p></h:form>
+    <h:panelGroup layout="block" rendered="#{editor.failed}" styleClass="notice error"><p>Daftar belum tersedia. Periksa koneksi, lalu gunakan tombol Cari untuk mencoba lagi.</p></h:panelGroup>
+    <h:panelGroup layout="block" rendered="#{editor.noResults}" styleClass="empty"><p>Tidak ada buku dalam hasil pencarian ini.</p></h:panelGroup>
+    <div class="table-wrap"><h:dataTable value="#{editor.books}" var="row" styleClass="book-table" rendered="#{not editor.noResults and not editor.failed}">
+      <h:column><f:facet name="header">ID</f:facet><h:outputText value="#{row.id}"/></h:column>
+      <h:column><f:facet name="header">Buku</f:facet><strong><h:outputText value="#{row.title}"/></strong><br/><span><h:outputText value="#{row.author}"/></span></h:column>
+      <h:column><f:facet name="header">Terbit</f:facet><h:outputText value="#{row.releaseDate}"/></h:column>
+      <h:column><f:facet name="header">Tindakan</f:facet><h:link outcome="/dashboard" value="Ubah" styleClass="table-action" p:aria-label="Ubah #{row.title}"><f:param name="edit" value="#{row.id}"/></h:link></h:column>
+    </h:dataTable></div>
+  </section>
+  <section class="edit-panel"><h2>#{editor.editing ? 'Ubah buku' : 'Tambah buku'}</h2><h:link outcome="/dashboard" value="Buat entri baru" rendered="#{editor.editing}"/>
+    <h:form id="book"><input type="hidden" name="csrfToken" value="#{sessionScope.csrfToken}"/>
+      <div class="field"><h:outputLabel for="title" value="Judul buku"/><h:inputText id="title" value="#{editor.book.title}" required="true" requiredMessage="Judul wajib diisi." p:maxlength="160"/></div>
+      <div class="field"><h:outputLabel for="author" value="Penulis"/><h:inputText id="author" value="#{editor.book.author}" required="true" requiredMessage="Penulis wajib diisi." p:maxlength="120"/></div>
+      <div class="field"><h:outputLabel for="date" value="Tanggal terbit"/><h:inputText id="date" value="#{editor.date}" required="true" requiredMessage="Tanggal terbit wajib diisi." p:type="date" p:min="1000-01-01" p:max="9999-12-31"/><small>Format tahun-bulan-tanggal.</small></div>
+      <div class="field"><h:outputLabel for="synopsis" value="Sinopsis"/><h:inputTextarea id="synopsis" value="#{editor.book.synopsis}" required="true" requiredMessage="Sinopsis wajib diisi." rows="5" p:maxlength="2000"/></div>
+      <h:commandButton id="save" value="Simpan buku" action="#{editor.save}" styleClass="button full"/><p class="submit-status" role="status"></p>
+    </h:form>
+    <h:form id="delete" rendered="#{editor.editing}" styleClass="delete-form"><input type="hidden" name="csrfToken" value="#{sessionScope.csrfToken}"/>
+      <h:commandButton id="ask" value="Hapus buku ini" action="#{editor.confirmDelete}" rendered="#{not editor.confirming}" styleClass="button danger secondary"/>
+      <h:panelGroup layout="block" rendered="#{editor.confirming}" styleClass="notice"><p>Hapus <strong><h:outputText value="#{editor.book.title}"/></strong> dari katalog? Tindakan ini tidak dapat dibatalkan.</p><div class="actions"><h:commandButton id="confirm" value="Ya, hapus buku" action="#{editor.delete}" styleClass="button danger"/><h:commandButton id="cancel" value="Batal hapus" action="#{editor.cancelDelete}" styleClass="button secondary"/></div></h:panelGroup>
+    </h:form>
+  </section></div>
+</div></ui:define>
+</ui:composition>

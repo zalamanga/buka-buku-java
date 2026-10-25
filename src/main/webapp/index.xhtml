@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" template="/WEB-INF/templates/base.xhtml">
+<ui:define name="title">Katalog buku | BukaBuku</ui:define>
+<ui:define name="content">
+  <section class="intro wrap">
+    <div><h1>Buka buku,<br/>temukan bacaanmu.</h1><p>Lihat judul, penulis, dan tanggal terbit dalam katalog. Punya data buku yang ingin ditambahkan? Masuk untuk mengelola koleksi demo ini.</p><a class="button" href="#koleksi">Lihat koleksi buku</a></div>
+    <h:graphicImage library="image" name="bg.png" alt="Ilustrasi buku terbuka dan tumpukan buku" styleClass="intro-art"/>
+  </section>
+  <section class="catalog-section" id="koleksi"><div class="wrap">
+    <div class="section-heading"><div><h2>Koleksi buku</h2><p>Katalog demo ini mengikuti data yang tersimpan. Metadata awal berasal dari contoh proyek.</p></div>
+      <form method="get" action="#{request.contextPath}/index.xhtml" class="search" role="search"><label for="q">Cari judul atau penulis</label><div><input id="q" name="q" maxlength="160" value="#{catalog.query}" type="search"/><button type="submit">Cari buku</button></div></form>
+    </div>
+    <h:panelGroup layout="block" rendered="#{catalog.failed}" styleClass="notice error" role="alert"><h3>Katalog belum dapat dimuat</h3><p>Periksa koneksi aplikasi lalu coba kembali.</p><h:link outcome="/index" value="Muat ulang katalog" styleClass="button secondary"/></h:panelGroup>
+    <h:panelGroup layout="block" rendered="#{catalog.noResults}" styleClass="empty"><h3>Belum ada buku yang cocok</h3><p>Coba judul atau penulis lain, atau tambahkan buku melalui halaman pengelolaan.</p><h:link outcome="/index" value="Tampilkan semua buku"/></h:panelGroup>
+    <div class="book-list"><ui:repeat value="#{catalog.books}" var="book">
+      <article class="book"><div class="cover">
+        <h:graphicImage library="image" name="#{book.cover}" alt="Sampul #{book.title}" rendered="#{book.hasCover}"/>
+        <h:panelGroup layout="block" rendered="#{not book.hasCover}" styleClass="no-cover">Sampul belum tersedia</h:panelGroup>
+      </div><div class="book-info"><h3><h:outputText value="#{book.title}"/></h3><p class="author"><h:outputText value="#{book.author}"/></p><p class="date">Terbit: <h:outputText value="#{book.releaseDate}"/></p><p><h:outputText value="#{book.synopsis}"/></p></div></article>
+    </ui:repeat></div>
+  </div></section>
+  <section class="about wrap" id="tentang"><h2>Tentang BukaBuku</h2><div><p>Proyek belajar Java untuk menampilkan dan mengelola metadata buku. Katalog dapat dibaca tanpa akun; pengguna terdaftar berbagi koleksi demo yang sama.</p><p>Aplikasi ini tidak menjual buku atau menyediakan isi buku digital. Gambar sampul tetap menjadi milik pemegang hak masing-masing.</p></div></section>
+</ui:define>
+</ui:composition>

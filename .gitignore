@@ -1,0 +1,13 @@
+.env
+target/
+.idea/
+.vscode/
+*.iml
+*.log
+*.class
+*.war
+*.mdf
+*.ldf
+node_modules/
+test-results/
+playwright-report/
