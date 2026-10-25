@@ -70,7 +70,7 @@ public class EditorBean implements Serializable {
       Views.error(error.getMessage());
     } catch (RuntimeException error) {
       Views.error(
-          "Buku belum tersimpan. Data mungkin berubah atau koneksi terputus. Muat ulang daftar sebelum mencoba lagi.");
+          "Penyimpanan buku belum dapat dikonfirmasi. Data mungkin berubah atau koneksi terputus. Muat ulang daftar sebelum mencoba lagi.");
     }
     return null;
   }
@@ -96,7 +96,7 @@ public class EditorBean implements Serializable {
       Views.info(removed ? "Buku dihapus dari katalog." : "Buku sudah tidak tersedia.");
       return "/dashboard?faces-redirect=true";
     } catch (RuntimeException error) {
-      Views.error("Buku belum dihapus. Muat ulang data dan coba lagi.");
+      Views.error("Penghapusan buku belum dapat dikonfirmasi. Muat ulang daftar sebelum mencoba lagi.");
       return null;
     }
   }

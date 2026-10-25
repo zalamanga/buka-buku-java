@@ -48,6 +48,8 @@ Seed SQL hanya dijalankan ketika volume database pertama kali dibuat. Mengubah p
 
 Semua permintaan perubahan memerlukan sesi/form yang sesuai, dengan validasi server dan token CSRF. Ini tidak mencakup seluruh kebutuhan aplikasi publik: belum ada pembatasan percobaan login, pemulihan password, verifikasi email, atau audit perubahan.
 
+Jika koneksi database terputus, pool koneksi yang gagal dibuang. Permintaan berikutnya membuat koneksi baru setelah MySQL pulih. Aplikasi tidak mengulang operasi tulis secara otomatis; setelah timeout, muat ulang katalog sebelum mengirim perubahan yang sama lagi.
+
 ## Build dan tes tanpa Docker
 
 Gunakan JDK 17 dan Maven 3.9 atau lebih baru:

@@ -28,9 +28,16 @@ public class Store {
         tx.commit();
         return result;
       } catch (RuntimeException error) {
-        if (tx.isActive()) tx.rollback();
+        try {
+          if (tx.isActive()) tx.rollback();
+        } catch (RuntimeException rollbackFailure) {
+          if (rollbackFailure != error) error.addSuppressed(rollbackFailure);
+        }
         throw error;
       }
+    } catch (RuntimeException failure) {
+      if (Database.connectionFailure(failure)) Database.invalidate(factory, failure);
+      throw failure;
     }
   }
 
