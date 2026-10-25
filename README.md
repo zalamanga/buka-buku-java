@@ -4,6 +4,19 @@ Katalog buku dan halaman pengelolaan berbasis **Java 17, JSF/Facelets, Hibernate
 
 Ini proyek belajar dengan **koleksi bersama**: setiap akun demo memiliki hak mengelola seluruh buku. Tidak ada pembayaran, peminjaman, unduhan isi buku, atau pembagian peran admin. Gunakan akun dan data contoh untuk mencobanya.
 
+## Tampilan aplikasi
+
+![Katalog BukaBuku dengan pencarian dan sembilan contoh buku](docs/images/catalog-desktop.png)
+
+Tangkapan aplikasi dari pengujian 25 Oktober 2026. Akun pengujian memakai data sintetis; metadata buku berasal dari contoh proyek asal. Perbaikan backend setelah pengambilan gambar tidak mengubah UI ini.
+
+<details>
+<summary>Halaman kelola buku</summary>
+
+![Halaman kelola buku BukaBuku dengan daftar buku dan form tambah buku](docs/images/books-management-desktop.png)
+
+</details>
+
 ## Jalankan dengan Docker
 
 Siapkan Docker Desktop dalam mode Linux containers. Di PowerShell:
