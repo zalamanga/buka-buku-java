@@ -92,4 +92,6 @@ src/test/java/                Pengujian transaksi, validasi, hash dan filter
 
 Konfigurasi tidak melakukan pembuatan ulang schema otomatis pada runtime. Model, DAO, dan form sudah dipisahkan; session Hibernate ditutup dan transaksi yang gagal di-rollback. Tampilan memakai CSS/aset lokal tanpa CDN.
 
+Lihat [alur kode dan diagram](docs/CODE_FLOW.md) untuk hubungan katalog publik, akun, editor buku, filter sesi/CSRF, dan transaksi Hibernate.
+
 Lihat [NOTICE.md](NOTICE.md) untuk asal kode dan gambar. Pembaruan ini tidak memberikan lisensi baru atas sampul buku atau aset sumber.
